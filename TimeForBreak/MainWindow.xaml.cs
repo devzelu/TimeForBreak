@@ -35,7 +35,6 @@ namespace TimeForBreak
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
             {
                 key.SetValue("TimeForBreak", "\"" + Assembly.GetExecutingAssembly().Location.Replace("TimeForBreak.dll", "TimeForBreak.exe") + "\"");
-                // var x = Assembly.GetExecutingAssembly().Location.Replace("TimeForBreak.dll","TimeForBreak.exe");
             }
         }
 
