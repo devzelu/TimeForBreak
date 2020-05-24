@@ -28,8 +28,8 @@
         <Grid>
             <Grid>
                 <TextBox x:Name="TimerInput" HorizontalAlignment="Left" Text="60:00" TextWrapping="Wrap" VerticalAlignment="Center" Width="158" BorderThickness="0" Background="{x:Null}" Foreground="White" FontSize="48" BorderBrush="White" SelectionBrush="#FF4993FD" SelectionTextBrush="White" TextAlignment="Center" CaretBrush="White" />
-                <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="158,8,0,0" VerticalAlignment="Top" Click="StartButton_Click" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="20" />
-                <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="158,39,0,0" VerticalAlignment="Top" Click="StopButton_Click" BorderThickness="0" FontSize="20" Foreground="White" BorderBrush="{x:Null}" Background="{x:Null}" />
+                <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="158,12,0,0" VerticalAlignment="Top" Click="StartButton_Click" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="20" FontWeight="Normal" />
+                <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="158,43,0,0" VerticalAlignment="Top" Click="StopButton_Click" BorderThickness="0" FontSize="20" Foreground="White" BorderBrush="{x:Null}" Background="{x:Null}" />
             </Grid>
         </Grid>
     </Border>
