@@ -129,6 +129,7 @@ namespace TimeForBreak
                 if (result == MessageBoxResult.OK)
                 {
                     player.Stop();
+                    TimerInput.IsReadOnly = false;
                 }
             }
         }
