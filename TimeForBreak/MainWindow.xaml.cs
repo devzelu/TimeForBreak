@@ -105,6 +105,7 @@ namespace TimeForBreak
             }
         }
 
+        // Not working at this moment need to fix it
         private void StopButton_Click(object sender, MouseButtonEventArgs e)
         {
             //Double click reset timer to startup value
@@ -114,7 +115,7 @@ namespace TimeForBreak
                 TimerInput.Text = "60:00";
                 TimerInput.IsReadOnly = false;
             }
-            else
+            else if (e.ClickCount == 1)
             {
                 timer1.Stop();
                 timeLeft = 0;
