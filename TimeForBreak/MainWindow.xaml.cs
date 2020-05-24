@@ -105,11 +105,21 @@ namespace TimeForBreak
             }
         }
 
-        private void StopButton_Click(object sender, RoutedEventArgs e)
+        private void StopButton_Click(object sender, MouseButtonEventArgs e)
         {
-            timer1.Stop();
-            timeLeft = 0;
-            TimerInput.IsReadOnly = false;
+            //Double click reset timer to startup value
+            if (e.ClickCount == 2)
+            {
+                timer1.Stop();
+                TimerInput.Text = "60:00";
+                TimerInput.IsReadOnly = false;
+            }
+            else
+            {
+                timer1.Stop();
+                timeLeft = 0;
+                TimerInput.IsReadOnly = false;
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
