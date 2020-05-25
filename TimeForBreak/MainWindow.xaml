@@ -5,31 +5,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="TimeForBreak" Height="88" Width="221"
+        Title="TimeForBreak" Height="90" Width="221"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize"
         Window.MouseMove="Window_MouseMove" WindowStartupLocation="Manual" WindowState="Normal" Topmost="True">
 
-    <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10,10,10,10">
-        <Border.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <LinearGradientBrush.RelativeTransform>
-                    <TransformGroup>
-                        <ScaleTransform CenterY="0.5" CenterX="0.5" />
-                        <SkewTransform CenterY="0.5" CenterX="0.5" />
-                        <RotateTransform Angle="200" CenterY="0.5" CenterX="0.5" />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </LinearGradientBrush.RelativeTransform>
-                <GradientStop Color="#FFB64592" Offset="0" />
-                <GradientStop Color="#FF3CC8F1" Offset="1" />
-            </LinearGradientBrush>
-        </Border.Background>
+    <Border BorderThickness="0" BorderBrush="#577084" CornerRadius="0" Background="#FF36495A">
         <Grid>
             <Grid>
-                <TextBox x:Name="TimerInput" HorizontalAlignment="Left" Text="60:00" TextWrapping="Wrap" VerticalAlignment="Center" Width="158" BorderThickness="0" Background="{x:Null}" Foreground="White" FontSize="48" BorderBrush="White" SelectionBrush="#FF4993FD" SelectionTextBrush="White" TextAlignment="Center" CaretBrush="White" />
-                <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="158,12,0,0" VerticalAlignment="Top" Click="StartButton_Click" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="20" FontWeight="Normal" />
-                <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="158,43,0,0" VerticalAlignment="Top" MouseLeftButtonDown="StopButton_Click" BorderThickness="0" FontSize="20" Foreground="White" BorderBrush="{x:Null}" Background="{x:Null}" />
+                <TextBox x:Name="TimerInput" HorizontalAlignment="Left" Text="60:00" TextWrapping="Wrap" VerticalAlignment="Center" Width="158" BorderThickness="0" Background="{x:Null}" Foreground="#FF70C39A" FontSize="48" BorderBrush="White" SelectionBrush="#FF4993FD" SelectionTextBrush="White" TextAlignment="Center" CaretBrush="White" />
+                <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="158,12,0,0" VerticalAlignment="Top" Click="StartButton_Click" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF70C39A" FontSize="20" FontWeight="Normal" />
+                <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="158,43,0,0" VerticalAlignment="Top" Click="StopButton_Click" BorderThickness="0" FontSize="20" Foreground="#FF70C39A" BorderBrush="{x:Null}" Background="{x:Null}" />
             </Grid>
         </Grid>
     </Border>

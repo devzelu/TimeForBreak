@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
 using System.Reflection;
+using System.Windows.Threading;
 
 namespace TimeForBreak
 {
@@ -15,19 +16,16 @@ namespace TimeForBreak
     public partial class MainWindow : Window
     {
         private int timeLeft;
-
-        private System.Windows.Threading.DispatcherTimer timer1 = new System.Windows.Threading.DispatcherTimer();
-
+        private bool state;
+        private DispatcherTimer timer1 = new DispatcherTimer();
         private System.Media.SoundPlayer player = new SoundPlayer(System.Reflection.Assembly.GetEntryAssembly().Location.Replace("TimeForBreak.dll", "sound.wav"));
 
         public MainWindow()
         {
             InitializeComponent();
-            ApplyAppSettings();
-
-            timer1.Interval = new TimeSpan(0, 0, 1);
-            timer1.Start();
             SetStartup();
+            ApplyAppSettings();
+            timer1.Interval = new TimeSpan(0, 0, 1);
         }
 
         private void SetStartup()
@@ -99,26 +97,26 @@ namespace TimeForBreak
                 timeLeft = (minutes * 60) + seconds;
 
                 TimerInput.IsReadOnly = true;
-
                 timer1.Tick += new EventHandler(timer1_Tick);
                 timer1.Start();
+                state = true; //on
             }
         }
 
-        // Not working at this moment need to fix it
-        private void StopButton_Click(object sender, MouseButtonEventArgs e)
+        private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            //Double click reset timer to startup value
-            if (e.ClickCount == 2)
+            if (state == true)
             {
+                timer1.Stop();
+                TimerInput.IsReadOnly = false;
+                state = false;
+            }
+            else
+            {
+                //deatach event handler to prevent duplication
+                timer1.Tick -= new EventHandler(timer1_Tick);
                 timer1.Stop();
                 TimerInput.Text = "60:00";
-                TimerInput.IsReadOnly = false;
-            }
-            else if (e.ClickCount == 1)
-            {
-                timer1.Stop();
-                timeLeft = 0;
                 TimerInput.IsReadOnly = false;
             }
         }
@@ -138,6 +136,9 @@ namespace TimeForBreak
                 var result = MessageBox.Show("Time to take a break", "Info!", MessageBoxButton.OK);
                 if (result == MessageBoxResult.OK)
                 {
+                    //deatach event handler to prevent duplication
+                    timer1.Tick -= new EventHandler(timer1_Tick);
+                    TimerInput.Text = "60:00";
                     player.Stop();
                     TimerInput.IsReadOnly = false;
                 }
