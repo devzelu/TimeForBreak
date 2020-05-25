@@ -26,6 +26,7 @@ namespace TimeForBreak
             SetStartup();
             ApplyAppSettings();
             timer1.Interval = new TimeSpan(0, 0, 1);
+            timer1.Tick += new EventHandler(timer1_Tick);
         }
 
         private void SetStartup()
@@ -97,7 +98,6 @@ namespace TimeForBreak
                 timeLeft = (minutes * 60) + seconds;
 
                 TimerInput.IsReadOnly = true;
-                timer1.Tick += new EventHandler(timer1_Tick);
                 timer1.Start();
                 state = true; //on
             }
@@ -113,8 +113,6 @@ namespace TimeForBreak
             }
             else
             {
-                //deatach event handler to prevent duplication
-                timer1.Tick -= new EventHandler(timer1_Tick);
                 timer1.Stop();
                 TimerInput.Text = "60:00";
                 TimerInput.IsReadOnly = false;
@@ -136,8 +134,6 @@ namespace TimeForBreak
                 var result = MessageBox.Show("Time to take a break", "Info!", MessageBoxButton.OK);
                 if (result == MessageBoxResult.OK)
                 {
-                    //deatach event handler to prevent duplication
-                    timer1.Tick -= new EventHandler(timer1_Tick);
                     TimerInput.Text = "60:00";
                     player.Stop();
                     TimerInput.IsReadOnly = false;
