@@ -18,6 +18,7 @@ namespace TimeForBreak
         private int timeLeft;
         private bool state;
         private DispatcherTimer timer1 = new DispatcherTimer();
+
         private System.Media.SoundPlayer player = new SoundPlayer(System.Reflection.Assembly.GetEntryAssembly().Location.Replace("TimeForBreak.dll", "sound.wav"));
 
         public MainWindow()
@@ -25,6 +26,7 @@ namespace TimeForBreak
             InitializeComponent();
             SetStartup();
             ApplyAppSettings();
+
             timer1.Interval = new TimeSpan(0, 0, 1);
             timer1.Tick += new EventHandler(timer1_Tick);
         }

@@ -8,7 +8,7 @@
         Title="TimeForBreak" Height="90" Width="221"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize"
-        Window.MouseMove="Window_MouseMove" WindowStartupLocation="Manual" WindowState="Normal" Topmost="True">
+        Window.MouseMove="Window_MouseMove" WindowStartupLocation="Manual" WindowState="Normal" Topmost="True" Icon="/favicon.ico">
 
     <Border BorderThickness="0" BorderBrush="#577084" CornerRadius="0" Background="#FF36495A">
         <Grid>
