@@ -91,28 +91,6 @@ namespace TimeForBreak
             Close();
         }
 
-        private void X_Click(object sender, RoutedEventArgs e)
-        {
-            var menuItem = e.OriginalSource as MenuItem;
-            if (menuItem != null)
-            {
-                switch (menuItem.Header.ToString())
-                {
-                    case "Settings":
-                        MessageBox.Show("");
-                        break;
-
-                    case "Hide/Show":
-                        MessageBox.Show("Rectangle");
-                        break;
-
-                    case "Close":
-                        Close();
-                        break;
-                }
-            }
-        }
-
         private void SetStartup()
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
