@@ -1,12 +1,19 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Configuration;
-using System.Collections.Specialized;
+using System.IO;
 using System.Media;
-using System.Windows;
-using System.Windows.Input;
-using Microsoft.Win32;
 using System.Reflection;
+using System.Windows;
+using System.Drawing;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Threading;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
+using System.ComponentModel;
+using System.Linq;
 
 namespace TimeForBreak
 {
@@ -18,8 +25,11 @@ namespace TimeForBreak
         private int timeLeft;
         private bool state;
         private DispatcherTimer timer1 = new DispatcherTimer();
-
-        private System.Media.SoundPlayer player = new SoundPlayer(System.Reflection.Assembly.GetEntryAssembly().Location.Replace("TimeForBreak.dll", "sound.wav"));
+        private NotifyIcon icon = new NotifyIcon();
+        private ContextMenu contextMenu;
+        private string title = "Time For Break";
+        private string message = "Time to take a break";
+        private System.Media.SoundPlayer player = new SoundPlayer("./sound.wav");
 
         public MainWindow()
         {
@@ -27,15 +37,87 @@ namespace TimeForBreak
             SetStartup();
             ApplyAppSettings();
 
+            icon.Icon = new System.Drawing.Icon("./favicon.ico");
+            icon.Text = title;
+            icon.Visible = true;
+
+            icon.MouseClick += TrayMouse_Click;
+
             timer1.Interval = new TimeSpan(0, 0, 1);
             timer1.Tick += new EventHandler(timer1_Tick);
+        }
+
+        private void TrayMouse_Click(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenu contextMenu = new ContextMenu();
+                var settingsMenu = new MenuItem() { Header = "Settings" };
+                var hideShowMenu = new MenuItem() { Header = "Hide/Show" };
+                var about = new MenuItem() { Header = "About" };
+                var closeMenu = new MenuItem() { Header = "Close" };
+
+                contextMenu.Items.Add(settingsMenu);
+                settingsMenu.Click += SettingsMenu_Click;
+                contextMenu.Items.Add(hideShowMenu);
+                hideShowMenu.Click += hideShowMenu_Click;
+                contextMenu.Items.Add(new Separator());
+                contextMenu.Items.Add(about);
+                about.Click += About_Click;
+                contextMenu.Items.Add(new Separator());
+                contextMenu.Items.Add(closeMenu);
+                closeMenu.Click += closeMenu_Click;
+                contextMenu.IsOpen = true;
+            }
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("About");
+        }
+
+        private void SettingsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Settings tab was clicked");
+        }
+
+        private void hideShowMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Hide/Show tab was clicked");
+        }
+
+        private void closeMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void X_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = e.OriginalSource as MenuItem;
+            if (menuItem != null)
+            {
+                switch (menuItem.Header.ToString())
+                {
+                    case "Settings":
+                        MessageBox.Show("");
+                        break;
+
+                    case "Hide/Show":
+                        MessageBox.Show("Rectangle");
+                        break;
+
+                    case "Close":
+                        Close();
+                        break;
+                }
+            }
         }
 
         private void SetStartup()
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
             {
-                key.SetValue("TimeForBreak", "\"" + Assembly.GetExecutingAssembly().Location.Replace("TimeForBreak.dll", "TimeForBreak.exe") + "\"");
+                key.SetValue("TimeForBreak", "\"" + Assembly.GetExecutingAssembly().Location.Replace("Time For Break.dll", "Time For Break.exe") + "\"");
             }
         }
 
@@ -75,7 +157,7 @@ namespace TimeForBreak
             return (x, y);
         }
 
-        private void Window_MouseMove(object sender, MouseEventArgs e)
+        private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
@@ -92,7 +174,7 @@ namespace TimeForBreak
             {
                 MessageBox.Show("Please enter the time to start!", "Enter the time", MessageBoxButton.OK);
             }
-            else
+            else if (TimerInput.Text.Contains(':'))
             {
                 string[] totalSeconds = TimerInput.Text.Split(":");
                 int minutes = Convert.ToInt32(totalSeconds[0]);
@@ -102,6 +184,10 @@ namespace TimeForBreak
                 TimerInput.IsReadOnly = true;
                 timer1.Start();
                 state = true; //on
+            }
+            else
+            {
+                MessageBox.Show("Invalid format [mm:ss]", "Please enter the time to start!", MessageBoxButton.OK);
             }
         }
 
@@ -133,7 +219,10 @@ namespace TimeForBreak
             {
                 timer1.Stop();
                 player.PlayLooping();
-                var result = MessageBox.Show("Time to take a break", "Info!", MessageBoxButton.OK);
+                icon.BalloonTipTitle = title;
+                icon.BalloonTipText = message;
+                icon.ShowBalloonTip(3000);
+                var result = MessageBox.Show(message, "Info!", MessageBoxButton.OK);
                 if (result == MessageBoxResult.OK)
                 {
                     TimerInput.Text = "60:00";
