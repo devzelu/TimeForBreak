@@ -79,7 +79,6 @@ namespace TimeForBreak
         private void SettingsMenu_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Settings tab was clicked");
-            // Open settings window
         }
 
         private void hideShowMenu_Click(object sender, RoutedEventArgs e)
